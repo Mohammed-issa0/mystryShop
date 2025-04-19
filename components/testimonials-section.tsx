@@ -182,13 +182,14 @@ export default function TestimonialsSection() {
 
           {/* Testimonial card */}
           <motion.div
-            key={currentIndex}
-            initial={{ opacity: 0, scale: 0.9, y: 20 }}
-            animate={{ opacity: 1, scale: 1, y: 0 }}
-            exit={{ opacity: 0, scale: 0.9, y: 20 }}
-            transition={{ duration: 0.5, type: "spring", stiffness: 100 }}
-            className="bg-white rounded-2xl p-10 shadow-2xl border border-gray-100 relative"
-          >
+  key={currentIndex}
+  initial={{ opacity: 0, scale: 0.9, y: 20 }}
+  animate={{ opacity: 1, scale: 1, y: 0 }}
+  exit={{ opacity: 0, scale: 0.9, y: 20 }}
+  transition={{ type: "spring", stiffness: 100, damping: 15 }}
+  className="bg-white rounded-2xl p-10 shadow-2xl border border-gray-100 relative"
+>
+
             {/* Decorative elements */}
             <div className="absolute top-0 right-0 w-40 h-40 bg-red-100/30 rounded-full -translate-y-1/2 translate-x-1/2"></div>
             <div className="absolute bottom-0 left-0 w-40 h-40 bg-orange-100/30 rounded-full translate-y-1/2 -translate-x-1/2"></div>
@@ -260,17 +261,20 @@ export default function TestimonialsSection() {
         </div>
 
         {/* Client logos */}
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.7, delay: 0.4 }}
-          className="mb-20"
-        >
-          <h2 className="text-3xl font-bold text-gray-900 mb-8 text-center">شركاؤنا في النجاح</h2>
-          <AutoScrollingLogos logos={clientLogos} /> 
-          {/* x */}
-        </motion.div>
+        <div className="mb-20">
+  <motion.h2
+    initial={{ opacity: 0, y: 30 }}
+    whileInView={{ opacity: 1, y: 0 }}
+    viewport={{ once: true }}
+    transition={{ duration: 0.7, delay: 0.4 }}
+    className="text-3xl font-bold text-gray-900 mb-8 text-center"
+  >
+    شركاؤنا في النجاح
+  </motion.h2>
+
+  <AutoScrollingLogos logos={clientLogos} />
+</div>
+
 
         <motion.div
           initial={{ opacity: 0, y: 30 }}

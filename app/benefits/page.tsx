@@ -4,7 +4,7 @@ import { motion } from "framer-motion"
 import { useEffect } from "react"
 import { Search, UserCheck, BookOpen, Award, CheckSquare, TrendingUp, Heart, MessageSquare } from "lucide-react"
 import Image from "next/image"
-
+import choose from '../../public/choose.jpg'
 const benefits = [
   {
     icon: <Search className="h-16 w-16 text-red-900" />,
@@ -216,10 +216,10 @@ export default function BenefitsPage() {
               transition={{ duration: 0.7 }}
               className="relative"
             >
-              <div className="absolute -inset-4 bg-gradient-to-r from-red-900 to-orange-600 rounded-2xl blur-lg opacity-20 transform rotate-3"></div>
-              <div className="relative h-[300px] rounded-2xl overflow-hidden shadow-2xl">
+              <div className="absolute -inset-4  rounded-2xl blur-lg opacity-20 transform rotate-3"></div>
+              <div className="relative h-[300px] rounded-2xl overflow-hidden  ">
                 <Image
-                  src="/placeholder.svg?height=600&width=800"
+                  src={choose}
                   alt="لماذا تختار المتسوق الجديد"
                   fill
                   style={{ objectFit: "cover" }}

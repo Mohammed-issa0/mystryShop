@@ -116,7 +116,7 @@ export default function HowWeWorkSection() {
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
+          // viewport={{ once: true }}
           transition={{ duration: 0.5 }}
           className="text-center mb-20"
         >
@@ -124,7 +124,7 @@ export default function HowWeWorkSection() {
             <motion.div
               initial={{ scale: 0 }}
               whileInView={{ scale: 1 }}
-              viewport={{ once: true }}
+              // viewport={{ once: true }}
               transition={{ type: "spring", stiffness: 200, damping: 15 }}
               className="bg-gradient-to-r from-red-900 to-red-700 text-white px-6 py-2 rounded-full text-sm font-bold shadow-lg"
             >
@@ -196,7 +196,7 @@ export default function HowWeWorkSection() {
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
+          // viewport={{ once: true }}
           transition={{ duration: 0.7, delay: 0.5 }}
           className="mt-20 text-center"
         >

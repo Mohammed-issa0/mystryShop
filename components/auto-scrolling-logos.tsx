@@ -1,7 +1,6 @@
 "use client"
 
-import { motion, useAnimation } from "framer-motion"
-import { useEffect, useRef, useState } from "react"
+import Marquee from "react-fast-marquee"
 import Image from "next/image"
 
 interface AutoScrollingLogosProps {
@@ -9,61 +8,23 @@ interface AutoScrollingLogosProps {
 }
 
 export default function AutoScrollingLogos({ logos }: AutoScrollingLogosProps) {
-  const [width, setWidth] = useState(0)
-  const carousel = useRef<HTMLDivElement>(null)
-  const controls = useAnimation()
-
-  useEffect(() => {
-    if (carousel.current) {
-      setWidth(carousel.current.scrollWidth - carousel.current.offsetWidth)
-    }
-  }, [])
-
-  useEffect(() => {
-    if (width > 0) {
-      const animateCarousel = async () => {
-        while (true) {
-          await controls.start({
-            x: -width,
-            transition: {
-              duration: 20,
-              ease: "linear",
-            },
-          })
-          await controls.start({
-            x: 0,
-            transition: {
-              duration: 0,
-            },
-          })
-        }
-      }
-
-      animateCarousel()
-    }
-  }, [width, controls])
-
-  // Duplicate logos to create a seamless loop
-  const duplicatedLogos = [...logos, ...logos]
-
   return (
-    <div className="overflow-hidden">
-      <motion.div ref={carousel} className="cursor-grab overflow-hidden">
-        <motion.div
-          animate={controls}
-          className="flex"
-          style={{ paddingRight: "20px" }} // Add padding to prevent gap at the end
-        >
-          {duplicatedLogos.map((logo, index) => (
-            <motion.div
-              key={`${logo.id}-${index}`}
-              className="min-w-[160px] sm:min-w-[200px] md:min-w-[240px] h-24 p-4 mx-4 bg-white rounded-2xl shadow-md border border-gray-100 flex items-center justify-center"
-            >
-              <Image src={logo.logo || "/placeholder.svg"} alt={logo.name} width={120} height={60} />
-            </motion.div>
-          ))}
-        </motion.div>
-      </motion.div>
+    <div className="py-4">
+      <Marquee speed={50} gradient={false} pauseOnHover={true}>
+        {logos.map((logo) => (
+          <div key={logo.id} className="mx-6">
+            <div className="w-[120px] h-[80px] flex items-center justify-center bg-white rounded-xl shadow-md border border-gray-100 p-4">
+              <Image
+                src={logo.logo || "/placeholder.svg"}
+                alt={logo.name}
+                width={100}
+                height={60}
+                className="object-contain"
+              />
+            </div>
+          </div>
+        ))}
+      </Marquee>
     </div>
   )
 }

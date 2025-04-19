@@ -3,7 +3,9 @@
 import { motion } from "framer-motion"
 import Image from "next/image"
 import { useEffect } from "react"
-
+import who from "../../public/who.jpg"
+import em1 from "../../public/em1.jpg"
+import em2 from "../../public/em2.jpg"
 export default function AboutPage() {
   // Scroll to top on page load
   useEffect(() => {
@@ -107,7 +109,7 @@ export default function AboutPage() {
             <div className="absolute -inset-4 bg-gradient-to-r from-red-900 to-orange-600 rounded-2xl blur-lg opacity-20 transform -rotate-6"></div>
             <div className="relative h-[400px] rounded-2xl overflow-hidden shadow-2xl transform hover:scale-105 transition-transform duration-500">
               <Image
-                src="/placeholder.svg?height=800&width=600"
+                src={who}
                 alt="فريق المتسوق الجديد"
                 fill
                 style={{ objectFit: "cover" }}
@@ -201,7 +203,7 @@ export default function AboutPage() {
               >
                 <div className="relative h-64 overflow-hidden">
                   <Image
-                    src={`/placeholder.svg?height=300&width=300`}
+                    src={em2}
                     alt={`عضو الفريق ${member}`}
                     fill
                     style={{ objectFit: "cover" }}
