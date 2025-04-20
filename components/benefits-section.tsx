@@ -136,11 +136,11 @@ export default function BenefitsSection() {
               transition={{ type: "spring", stiffness: 200, damping: 15 }}
               className="bg-gradient-to-r from-red-900 to-red-700 text-white px-6 py-2 rounded-full text-sm font-bold shadow-lg"
             >
-              لماذا تختارنا؟
+              ما هي فوائد ؟
             </motion.div>
           </div>
           <h2 className="text-4xl md:text-5xl font-extrabold text-gray-900 mb-4 tracking-tight">
-            فوائد{" "}
+           
             <span className="text-transparent bg-clip-text bg-gradient-to-r from-red-900 to-orange-600">
               التسوق الخفي
             </span>

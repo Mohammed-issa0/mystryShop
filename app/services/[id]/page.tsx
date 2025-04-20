@@ -3,8 +3,14 @@
 import { motion } from "framer-motion"
 import { useState } from "react"
 import { useParams } from "next/navigation"
+import { useEffect } from "react";
+import { ChevronLeft, MessageCircle } from "lucide-react"
+import { AnimatePresence } from "framer-motion"
 import Image from "next/image"
-
+import t1 from '../../../public/t1.jpg';
+import t2 from '../../../public/t2.webp';
+import t3 from '../../../public/t3.jpg';
+import t4 from '../../../public/t4.webp';
 const services = [
   {
     id: "customer-experience",
@@ -13,7 +19,7 @@ const services = [
       "قياس وتحليل تجربة العملاء من خلال زيارات سرية لتقييم جودة الخدمة المقدمة وتحديد نقاط القوة والضعف في رحلة العميل.",
     longDescription:
       "نقدم خدمة شاملة لتقييم تجربة العملاء من خلال زيارات سرية يقوم بها متسوقون خفيون مدربون. نقيس جودة الخدمة، سرعة الاستجابة، مظهر المكان، سلوك الموظفين، وكل ما يؤثر على تجربة العميل. نقدم تقارير مفصلة تحدد نقاط القوة والضعف وتوصيات عملية للتحسين.",
-    image: "/placeholder.svg?height=600&width=800",
+    image: t1,
     features: [
       "تقييم شامل لرحلة العميل",
       "قياس مستوى الخدمة المقدمة",
@@ -28,7 +34,7 @@ const services = [
       "تقييم موضوعي لأداء الموظفين وفق معايير محددة لقياس مدى التزامهم بسياسات الشركة وجودة تعاملهم مع العملاء.",
     longDescription:
       "نقدم خدمة متخصصة لتقييم أداء الموظفين من خلال زيارات غير معلنة يقوم بها متسوقون خفيون مدربون. نقيس مدى التزام الموظفين بمعايير وسياسات الشركة، جودة التعامل مع العملاء، المعرفة بالمنتجات والخدمات، وغيرها من المعايير. نقدم تقارير مفصلة تساعد في تحديد احتياجات التدريب وتطوير الأداء.",
-    image: "/placeholder.svg?height=600&width=800",
+    image: t2,
     features: [
       "تقييم موضوعي لأداء الموظفين",
       "قياس الالتزام بمعايير الشركة",
@@ -42,7 +48,7 @@ const services = [
     description: "جمع وتحليل البيانات من مصادر متعددة لتقديم رؤى قيمة تساعد في اتخاذ قرارات مبنية على معلومات دقيقة.",
     longDescription:
       "نقدم خدمة متكاملة لجمع وتحليل البيانات من مصادر متعددة، بما في ذلك زيارات التسوق الخفي، استطلاعات رأي العملاء، وتحليل وسائل التواصل الاجتماعي. نستخدم أدوات تحليلية متقدمة لاستخراج رؤى قيمة من هذه البيانات وتقديمها في تقارير سهلة الفهم تساعد في اتخاذ قرارات مبنية على معلومات دقيقة.",
-    image: "/placeholder.svg?height=600&width=800",
+    image: t3,
     features: ["جمع بيانات من مصادر متعددة", "تحليل متقدم للبيانات", "رؤى قابلة للتنفيذ", "تقارير سهلة الفهم"],
   },
   {
@@ -51,12 +57,13 @@ const services = [
     description: "تعزيز القدرة التنافسية للشركات من خلال تقييم المنافسين وتحديد الفرص لتحسين الأداء والخدمة.",
     longDescription:
       "نقدم خدمة متخصصة لدعم التميز التنافسي من خلال تقييم المنافسين وتحديد الفرص لتحسين الأداء والخدمة. نقوم بزيارات تسوق خفي للمنافسين لتقييم خدماتهم ومنتجاتهم، ونقارن النتائج مع أداء الشركة لتحديد نقاط القوة والضعف. نقدم توصيات عملية لتعزيز الميزة التنافسية وتحسين الحصة السوقية.",
-    image: "/placeholder.svg?height=600&width=800",
+    image: t4,
     features: ["تقييم المنافسين", "تحليل مقارن للأداء", "تحديد الفرص التنافسية", "استراتيجيات لتعزيز الميزة التنافسية"],
   },
 ]
 
 export default function ServiceDetailPage() {
+  const [showWhatsappTooltip, setShowWhatsappTooltip] = useState(false)
   const params = useParams()
   const serviceId = params.id
 
@@ -76,22 +83,77 @@ export default function ServiceDetailPage() {
   }
 
   const handleSubmit = (e) => {
-    e.preventDefault()
-    // Here you would handle the form submission
-    console.log(formData)
-    alert("تم إرسال طلبك بنجاح! سنتواصل معك قريباً.")
-    // Reset form
+    e.preventDefault();
+  
+    // نص الرسالة المرسلة عبر واتساب
+    const message = `
+  *طلب جديد من عميل:*
+  اسم الشركة: ${formData.companyName}
+  اسم جهة التواصل: ${formData.contactName}
+  رقم الهاتف: ${formData.phone}
+  البريد الإلكتروني: ${formData.email}
+  تفاصيل الخدمة المطلوبة: ${formData.serviceDetails}
+  `;
+  
+    // رقم الواتساب بدون "+" (مثال: 9665xxxxxxxx)
+    const whatsappNumber = "966531472119";
+  
+    // فتح رابط الواتساب
+    const url = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(message)}`;
+    window.open(url, "_blank");
+  
+    // تنبيه المستخدم
+    alert("تم إرسال طلبك بنجاح! سنتواصل معك قريباً.");
+  
+    // إعادة تعيين النموذج
     setFormData({
       companyName: "",
       contactName: "",
       phone: "",
       email: "",
       serviceDetails: "",
-    })
-  }
+    });
+  };
+  
 
   return (
     <div className="py-20">
+
+    {/* WhatsApp floating button */}
+    <motion.div
+        initial={{ scale: 0, opacity: 0 }}
+        animate={{ scale: 1, opacity: 1 }}
+        transition={{ delay: 1, duration: 0.5 }}
+        className="fixed bottom-8 left-8 z-50"
+        onMouseEnter={() => setShowWhatsappTooltip(true)}
+        onMouseLeave={() => setShowWhatsappTooltip(false)}
+      >
+        <motion.a
+          href="https://wa.me/966531472119"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="flex items-center justify-center w-16 h-16 bg-gradient-to-r from-green-500 to-green-600 rounded-full shadow-lg hover:shadow-xl transition-all duration-300"
+          whileHover={{ scale: 1.1 }}
+          whileTap={{ scale: 0.9 }}
+        >
+          <MessageCircle className="h-8 w-8 text-white" />
+        </motion.a>
+        <AnimatePresence>
+          {showWhatsappTooltip && (
+            <motion.div
+              initial={{ opacity: 0, x: 10, scale: 0.8 }}
+              animate={{ opacity: 1, x: 0, scale: 1 }}
+              exit={{ opacity: 0, x: 10, scale: 0.8 }}
+              transition={{ duration: 0.2 }}
+              className="absolute left-full top-1/2 transform -translate-y-1/2 -translate-x-2 bg-white text-gray-800 px-4 py-2 rounded-lg shadow-md mr-2 whitespace-nowrap"
+            >
+             تواصل معنا
+              <div className="absolute top-1/2 right-0 transform translate-x-2 -translate-y-1/2 w-0 h-0 border-t-8 border-b-8 border-l-8 border-transparent border-l-white"></div>
+            </motion.div>
+          )}
+        </AnimatePresence>
+      </motion.div>
+
       <div className="container mx-auto px-4">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -99,7 +161,7 @@ export default function ServiceDetailPage() {
           transition={{ duration: 0.5 }}
           className="text-center mb-16"
         >
-          <h1 className="text-4xl md:text-5xl font-bold text-gray-900 mb-6">{service.title}</h1>
+          <h1 className="text-4xl md:text-5xl font-bold text-red-900 mb-6">{service.title}</h1>
           <p className="text-xl text-gray-600 max-w-3xl mx-auto">{service.description}</p>
         </motion.div>
 
@@ -109,9 +171,9 @@ export default function ServiceDetailPage() {
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.5, delay: 0.2 }}
           >
-            <h2 className="text-2xl font-bold text-gray-900 mb-6">تفاصيل الخدمة</h2>
+            <h2 className="text-2xl font-bold text-red-900 mb-6">تفاصيل الخدمة</h2>
             <p className="text-lg text-gray-700 mb-6">{service.longDescription}</p>
-            <h3 className="text-xl font-bold text-gray-900 mb-3">مميزات الخدمة:</h3>
+            <h3 className="text-xl font-bold text-red-900 mb-3">مميزات الخدمة:</h3>
             <ul className="space-y-2 mb-6">
               {service.features.map((feature, idx) => (
                 <li key={idx} className="flex items-center text-lg text-gray-700">

@@ -4,7 +4,10 @@ import { motion } from "framer-motion"
 import { useEffect } from "react"
 import { ClipboardList, Phone, FileText, Play, BarChart2, FileCheck } from "lucide-react"
 import Image from "next/image"
-
+import { useState } from "react";
+import { ChevronLeft, MessageCircle } from "lucide-react"
+import { AnimatePresence } from "framer-motion"
+import how from '../../public/how.jpg'
 const steps = [
   {
     icon: <ClipboardList className="h-16 w-16 text-white" />,
@@ -57,6 +60,7 @@ const steps = [
 ]
 
 export default function HowWeWorkPage() {
+  const [showWhatsappTooltip, setShowWhatsappTooltip] = useState(false)
   // Scroll to top on page load
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: "smooth" })
@@ -83,6 +87,41 @@ export default function HowWeWorkPage() {
 
   return (
     <div className="py-20 relative overflow-hidden">
+
+      {/* WhatsApp floating button */}
+    <motion.div
+        initial={{ scale: 0, opacity: 0 }}
+        animate={{ scale: 1, opacity: 1 }}
+        transition={{ delay: 1, duration: 0.5 }}
+        className="fixed bottom-8 left-8 z-50"
+        onMouseEnter={() => setShowWhatsappTooltip(true)}
+        onMouseLeave={() => setShowWhatsappTooltip(false)}
+      >
+        <motion.a
+          href="https://wa.me/966531472119"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="flex items-center justify-center w-16 h-16 bg-gradient-to-r from-green-500 to-green-600 rounded-full shadow-lg hover:shadow-xl transition-all duration-300"
+          whileHover={{ scale: 1.1 }}
+          whileTap={{ scale: 0.9 }}
+        >
+          <MessageCircle className="h-8 w-8 text-white" />
+        </motion.a>
+        <AnimatePresence>
+          {showWhatsappTooltip && (
+            <motion.div
+              initial={{ opacity: 0, x: 10, scale: 0.8 }}
+              animate={{ opacity: 1, x: 0, scale: 1 }}
+              exit={{ opacity: 0, x: 10, scale: 0.8 }}
+              transition={{ duration: 0.2 }}
+              className="absolute left-full top-1/2 transform -translate-y-1/2 -translate-x-2 bg-white text-gray-800 px-4 py-2 rounded-lg shadow-md mr-2 whitespace-nowrap"
+            >
+             تواصل معنا
+              <div className="absolute top-1/2 right-0 transform translate-x-2 -translate-y-1/2 w-0 h-0 border-t-8 border-b-8 border-l-8 border-transparent border-l-white"></div>
+            </motion.div>
+          )}
+        </AnimatePresence>
+      </motion.div>
       {/* Animated background elements */}
       <div className="absolute inset-0 -z-10">
         <motion.div
@@ -223,10 +262,10 @@ export default function HowWeWorkPage() {
               transition={{ duration: 0.7 }}
               className="relative"
             >
-              <div className="absolute -inset-4 bg-gradient-to-r from-red-900 to-orange-600 rounded-2xl blur-lg opacity-20 transform rotate-3"></div>
+              {/* <div className="absolute -inset-4 bg-gradient-to-r from-red-900 to-orange-600 rounded-2xl blur-lg opacity-20 transform rotate-3"></div> */}
               <div className="relative h-[300px] rounded-2xl overflow-hidden shadow-2xl">
                 <Image
-                  src="/placeholder.svg?height=600&width=800"
+                  src={how}
                   alt="منهجية العمل"
                   fill
                   style={{ objectFit: "cover" }}

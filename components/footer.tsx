@@ -1,5 +1,5 @@
 import Link from "next/link"
-import { Facebook, Instagram, Twitter, Linkedin, Mail, Phone, MapPin } from "lucide-react"
+import { Facebook,MessageSquare , Instagram, Twitter, Linkedin, Mail, Phone, MapPin } from "lucide-react"
 
 export default function Footer() {
   return (
@@ -23,7 +23,7 @@ export default function Footer() {
                 <Linkedin size={20} />
               </Link>
             </div>
-            <p className="font-bold text-xl -mt-5" >cornermak@</p>
+            <p className="font-bold text-xl -mt-1" >cornermak@</p>
           </div>
 
           <div>
@@ -88,7 +88,11 @@ export default function Footer() {
             <ul className="space-y-2">
               <li className="flex items-center space-x-2 space-x-reverse">
                 <Phone size={16} />
-                <span>+966 531472119</span>
+                <span dir="ltr">+966 531472119</span>
+              </li>
+              <li className="flex items-center space-x-2 space-x-reverse">
+                <MessageSquare size={16} />
+                <span dir="ltr">+966 531472119</span>
               </li>
               <li className="flex items-center space-x-2 space-x-reverse">
                 <Mail size={16} />
@@ -103,7 +107,8 @@ export default function Footer() {
         </div>
 
         <div className="border-t border-gray-800 mt-8 pt-8 text-center">
-          <p>© {new Date().getFullYear()} المتسوق الجديد. جميع الحقوق محفوظة</p>
+          {/* <p dir="rtl">© {new Date().getFullYear()} المتسوق الجديد. جميع الحقوق محفوظة</p> */}
+          <p>© جميع الحقوق محفوظة 2025 لركن المسوق للتسوق الخفي </p>
         </div>
       </div>
     </footer>

@@ -2,7 +2,7 @@
 
 import { motion } from "framer-motion"
 import { useState, useEffect } from "react"
-import { Mail, Phone, MapPin, MessageSquare } from "lucide-react"
+import { Mail, Phone, MapPin, MessageSquare, Link } from "lucide-react"
 import Image from "next/image"
 import map from "../../public/map.png"
 export default function ContactPage() {
@@ -25,20 +25,40 @@ export default function ContactPage() {
   }
 
   const handleSubmit = (e) => {
-    e.preventDefault()
-    // Here you would handle the form submission
-    console.log(formData)
-    alert("تم إرسال رسالتك بنجاح! سنتواصل معك قريباً.")
-    // Reset form
+    e.preventDefault();
+  
+    // صياغة محتوى الرسالة
+    const message = `
+  *رسالة جديدة من الموقع:*
+  الاسم: ${formData.name}
+  البريد الإلكتروني: ${formData.email}
+  رقم الهاتف: ${formData.phone}
+  الموضوع: ${formData.subject}
+  الرسالة: ${formData.message}
+  `;
+  
+    // رقم الواتساب (بدون "+"، ابدأ بـ 966 للسعودية مثلاً)
+    const whatsappNumber = "966531472119";
+  
+    // فتح واتساب بالرابط
+    const url = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(message)}`;
+    window.open(url, "_blank");
+  
+    // تنبيه المستخدم
+    alert("تم إرسال رسالتك بنجاح! سنتواصل معك قريباً.");
+  
+    // إعادة تعيين الفورم
     setFormData({
       name: "",
       email: "",
       phone: "",
       subject: "",
       message: "",
-    })
-  }
+    });
+  };
+  
 
+  
   const fadeIn = {
     hidden: { opacity: 0, y: 20 },
     visible: {
@@ -125,7 +145,7 @@ export default function ContactPage() {
                 </div>
                 <div>
                   <h3 className="text-lg font-bold text-gray-900 mb-1">رقم الهاتف</h3>
-                  <p className="text-gray-700">+966 531472119</p>
+                  <p className="text-gray-700" dir="ltr">+966 531472119</p>
                 </div>
               </motion.div>
               <motion.div variants={fadeIn} className="flex items-start">
@@ -191,7 +211,7 @@ export default function ContactPage() {
                   name="email"
                   value={formData.email}
                   onChange={handleChange}
-                  required
+                  
                   className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-red-500 focus:border-transparent"
                 />
               </div>
@@ -205,7 +225,7 @@ export default function ContactPage() {
                   name="phone"
                   value={formData.phone}
                   onChange={handleChange}
-                  required
+                  
                   className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-red-500 focus:border-transparent"
                 />
               </div>
@@ -219,7 +239,7 @@ export default function ContactPage() {
                   name="subject"
                   value={formData.subject}
                   onChange={handleChange}
-                  required
+                  
                   className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-red-500 focus:border-transparent"
                 />
               </div>
@@ -233,7 +253,7 @@ export default function ContactPage() {
                   value={formData.message}
                   onChange={handleChange}
                   rows={5}
-                  required
+                  
                   className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-red-500 focus:border-transparent"
                 ></textarea>
               </div>
@@ -258,12 +278,15 @@ export default function ContactPage() {
           viewport={{ once: true }}
           transition={{ duration: 0.7, delay: 0.6 }}
           className="bg-gradient-to-r from-gray-50 to-white p-10 rounded-2xl shadow-lg"
-        >
+        > 
           <h2 className="text-2xl font-bold text-gray-900 mb-6 text-center">موقعنا</h2>
           <div className="h-[400px] bg-gray-300 rounded-2xl overflow-hidden relative">
             {/* Here you would integrate a map component */}
             <div className="w-full h-full flex items-center justify-center">
-              <Image src={map} alt="map"   style={{ objectFit: "cover" }}/>
+              
+              
+              <Image src={map} alt="map" className="object-cover"   />
+              
               
             </div>
             <div className="absolute inset-0 pointer-events-none shadow-[inset_0_0_20px_rgba(0,0,0,0.1)]"></div>

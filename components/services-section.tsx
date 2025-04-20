@@ -193,7 +193,7 @@ export default function ServicesSection() {
 
                 {/* Service title on image */}
                 <div className="absolute bottom-0 left-0 right-0 p-6 text-white transform translate-y-10 group-hover:translate-y-0 transition-transform duration-500">
-                  <h3 className="text-2xl font-bold mb-2">{service.title}</h3>
+                  <h3 className=" text-2xl font-bold mb-2">{service.title}</h3>
                 </div>
               </div>
 
@@ -208,10 +208,10 @@ export default function ServicesSection() {
               </div>
 
               <div className="p-6">
-                <p className="text-gray-600 mb-4">{service.description}</p>
+                <p className="text-gray-800 font-medium mb-4">{service.description}</p>
                 <Link
                   href={`/services/${service.id}`}
-                  className="inline-flex items-center text-red-900 font-medium hover:text-red-700 transition-colors group"
+                  className="inline-flex items-center text-red-900 font-bold hover:text-red-700 transition-colors group"
                 >
                   <span>تعرف على الخدمة</span>
                   <ChevronLeft className="mr-1 h-4 w-4 transform group-hover:translate-x-[-4px] transition-transform" />

@@ -5,15 +5,19 @@ import { useState } from "react"
 import { useParams } from "next/navigation"
 import Image from "next/image"
 import k1 from '../../../public/k1.jpg'
-import k2 from '../../../public/k2.jpg'
+import k2 from '../../../public/k1.jpeg'
 import k3 from '../../../public/k3.jpg'
 import k4 from '../../../public/k4.jpg'
-import k5 from '../../../public/k5.webp'
+import k5 from '../../../public/k5.jpg'
 import k6 from '../../../public/k6.jpg'
 import k7 from '../../../public/k7.jpg'
 import k8 from '../../../public/k8.jpg'
-import k9 from '../../../public/k9.jpg'
-
+import k9 from '../../../public/k9.webp'
+import k10 from '../../../public/k10.png'
+import k11 from '../../../public/k11.jpg'
+import { useEffect } from "react";
+import { ChevronLeft, MessageCircle } from "lucide-react"
+import { AnimatePresence } from "framer-motion"
 const sectors = [
   {
     id: "government",
@@ -141,9 +145,40 @@ const sectors = [
       "تحديد فرص التحسين لتعزيز رضا العملاء",
     ],
   },
+  {
+    id: "delivery",
+    title: "قطاع شركات التوصيل",
+    description: "تحسين كفاءة وجودة خدمات التوصيل",
+    longDescription:
+      "نساعد شركات التوصيل على تحسين أدائها من خلال تقييم تجربة العملاء، وقياس دقة مواعيد التوصيل، وسرعة الاستجابة. نهدف إلى تعزيز كفاءة عمليات التوصيل ورفع مستوى رضا العملاء وزيادة ولائهم.",
+    image: k10, // استبدله بالمسار أو الاستيراد المناسب للصورة
+    benefits: [
+      "تقييم تجربة العملاء مع خدمات التوصيل",
+      "تحسين دقة مواعيد التوصيل",
+      "تحليل سرعة الاستجابة ومعالجة الطلبات",
+      "زيادة رضا العملاء وتعزيز ولائهم",
+    ],
+  },
+  {
+    id: "logistics",
+    title: "قطاع الدعم اللوجستي",
+    description: "رفع كفاءة سلاسل الإمداد والخدمات اللوجستية",
+    longDescription:
+      "نقدم حلول التسوق الخفي لتقييم أداء شركات الدعم اللوجستي، وتحليل نقاط القوة والضعف في سلسلة الإمداد. نساعد في تحسين إدارة المخزون، وتقليل التأخير، وضمان تقديم خدمات لوجستية موثوقة وفعالة.",
+    image: k11, // استبدله بالمسار أو الاستيراد المناسب للصورة
+    benefits: [
+      "تحليل كفاءة سلسلة الإمداد",
+      "تحديد مشكلات التأخير والتوصيل",
+      "تحسين إدارة المخزون والعمليات",
+      "ضمان جودة الخدمات اللوجستية المقدمة",
+    ],
+  }
+  
+  
 ]
 
 export default function SectorDetailPage() {
+  const [showWhatsappTooltip, setShowWhatsappTooltip] = useState(false)
   const params = useParams()
   const sectorId = params.id
 
@@ -163,22 +198,76 @@ export default function SectorDetailPage() {
   }
 
   const handleSubmit = (e) => {
-    e.preventDefault()
-    // Here you would handle the form submission
-    console.log(formData)
-    alert("تم إرسال طلبك بنجاح! سنتواصل معك قريباً.")
-    // Reset form
+    e.preventDefault();
+  
+    // صياغة رسالة الواتساب
+    const message = `
+  *طلب جديد من الموقع:*
+  📌 اسم الشركة: ${formData.companyName}
+  👤 جهة التواصل: ${formData.contactName}
+  📞 رقم الهاتف: ${formData.phone}
+  ✉️ البريد الإلكتروني: ${formData.email}
+  📝 تفاصيل الخدمة المطلوبة: ${formData.serviceDetails}
+  `;
+  
+    // رقم الواتساب (بدون +)
+    const whatsappNumber = "966531472119";
+  
+    // فتح واتساب مع الرسالة
+    const url = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(message)}`;
+    window.open(url, "_blank");
+  
+    // تنبيه المستخدم
+    alert("تم إرسال طلبك بنجاح! سنتواصل معك قريباً.");
+  
+    // إعادة تعيين البيانات
     setFormData({
       companyName: "",
       contactName: "",
       phone: "",
       email: "",
       serviceDetails: "",
-    })
-  }
+    });
+  };
+  
 
   return (
+
     <div className="py-20">
+      {/* WhatsApp floating button */}
+    <motion.div
+        initial={{ scale: 0, opacity: 0 }}
+        animate={{ scale: 1, opacity: 1 }}
+        transition={{ delay: 1, duration: 0.5 }}
+        className="fixed bottom-8 left-8 z-50"
+        onMouseEnter={() => setShowWhatsappTooltip(true)}
+        onMouseLeave={() => setShowWhatsappTooltip(false)}
+      >
+        <motion.a
+          href="https://wa.me/966531472119"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="flex items-center justify-center w-16 h-16 bg-gradient-to-r from-green-500 to-green-600 rounded-full shadow-lg hover:shadow-xl transition-all duration-300"
+          whileHover={{ scale: 1.1 }}
+          whileTap={{ scale: 0.9 }}
+        >
+          <MessageCircle className="h-8 w-8 text-white" />
+        </motion.a>
+        <AnimatePresence>
+          {showWhatsappTooltip && (
+            <motion.div
+              initial={{ opacity: 0, x: 10, scale: 0.8 }}
+              animate={{ opacity: 1, x: 0, scale: 1 }}
+              exit={{ opacity: 0, x: 10, scale: 0.8 }}
+              transition={{ duration: 0.2 }}
+              className="absolute left-full top-1/2 transform -translate-y-1/2 -translate-x-2 bg-white text-gray-800 px-4 py-2 rounded-lg shadow-md mr-2 whitespace-nowrap"
+            >
+             تواصل معنا
+              <div className="absolute top-1/2 right-0 transform translate-x-2 -translate-y-1/2 w-0 h-0 border-t-8 border-b-8 border-l-8 border-transparent border-l-white"></div>
+            </motion.div>
+          )}
+        </AnimatePresence>
+      </motion.div>
       <div className="container mx-auto px-4">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -186,7 +275,7 @@ export default function SectorDetailPage() {
           transition={{ duration: 0.5 }}
           className="text-center mb-16"
         >
-          <h1 className="text-4xl md:text-5xl font-bold text-gray-900 mb-6">{sector.title}</h1>
+          <h1 className="text-4xl md:text-5xl font-bold text-red-900 mb-6">{sector.title}</h1>
           <p className="text-xl text-gray-600 max-w-3xl mx-auto">{sector.description}</p>
         </motion.div>
 
@@ -196,9 +285,9 @@ export default function SectorDetailPage() {
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.5, delay: 0.2 }}
           >
-            <h2 className="text-2xl font-bold text-gray-900 mb-6">خدماتنا في {sector.title}</h2>
+            <h2 className="text-2xl font-bold text-red-900 mb-6">خدماتنا في {sector.title}</h2>
             <p className="text-lg text-gray-700 mb-6">{sector.longDescription}</p>
-            <h3 className="text-xl font-bold text-gray-900 mb-3">فوائد خدماتنا:</h3>
+            <h3 className="text-xl font-bold text-red-900 mb-3">فوائد خدماتنا:</h3>
             <ul className="space-y-2 mb-6">
               {sector.benefits.map((benefit, idx) => (
                 <li key={idx} className="flex items-center text-lg text-gray-700">
@@ -240,7 +329,7 @@ export default function SectorDetailPage() {
                   name="companyName"
                   value={formData.companyName}
                   onChange={handleChange}
-                  required
+                  
                   className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-red-500 focus:border-transparent"
                 />
               </div>
@@ -254,7 +343,7 @@ export default function SectorDetailPage() {
                   name="contactName"
                   value={formData.contactName}
                   onChange={handleChange}
-                  required
+                  
                   className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-red-500 focus:border-transparent"
                 />
               </div>
@@ -268,7 +357,7 @@ export default function SectorDetailPage() {
                   name="phone"
                   value={formData.phone}
                   onChange={handleChange}
-                  required
+                  
                   className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-red-500 focus:border-transparent"
                 />
               </div>
@@ -282,7 +371,7 @@ export default function SectorDetailPage() {
                   name="email"
                   value={formData.email}
                   onChange={handleChange}
-                  required
+                  
                   className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-red-500 focus:border-transparent"
                 />
               </div>

@@ -32,13 +32,32 @@ export default function RegisterSection() {
   }
 
   const handleSubmit = (e) => {
-    e.preventDefault()
-    // Here you would handle the form submission
-    console.log(formData)
-    setIsSubmitted(true)
-    // Reset form after 3 seconds
+    e.preventDefault();
+  
+    // جهّز نص الرسالة
+    const message = `
+  *طلب جديد من الموقع:*
+  الاسم: ${formData.name}
+  الجنس: ${formData.gender}
+  العمر: ${formData.age}
+  المدينة: ${formData.city}
+  رقم الجوال: ${formData.phone}
+  المؤهل العلمي: ${formData.education}
+  `;
+  
+    
+    const whatsappNumber = "966531472119"; 
+    const url = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(message)}`;
+  
+   
+    window.open(url, "_blank");
+  
+    
+    setIsSubmitted(true);
+  
+    
     setTimeout(() => {
-      setIsSubmitted(false)
+      setIsSubmitted(false);
       setFormData({
         name: "",
         gender: "",
@@ -46,9 +65,10 @@ export default function RegisterSection() {
         city: "",
         phone: "",
         education: "",
-      })
-    }, 5000)
-  }
+      });
+    }, 2000);
+  };
+  
 
   const formVariants = {
     hidden: { opacity: 0 },
@@ -214,10 +234,10 @@ export default function RegisterSection() {
                       name="gender"
                       value={formData.gender}
                       onChange={handleChange}
-                      required
+                     
                       className="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-xl focus:ring-2 focus:ring-yellow-500 focus:border-transparent text-white"
                     >
-                      <option value="" className="bg-red-900">
+                      <option value="male" className="bg-red-900">
                         اختر
                       </option>
                       <option value="male" className="bg-red-900">
@@ -238,7 +258,7 @@ export default function RegisterSection() {
                       name="age"
                       value={formData.age}
                       onChange={handleChange}
-                      required
+                      
                       className="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-xl focus:ring-2 focus:ring-yellow-500 focus:border-transparent text-white placeholder-white/50"
                       placeholder="أدخل عمرك"
                     />
@@ -253,7 +273,7 @@ export default function RegisterSection() {
                       name="city"
                       value={formData.city}
                       onChange={handleChange}
-                      required
+                      
                       className="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-xl focus:ring-2 focus:ring-yellow-500 focus:border-transparent text-white placeholder-white/50"
                       placeholder="أدخل مدينتك"
                     />
@@ -268,7 +288,7 @@ export default function RegisterSection() {
                       name="phone"
                       value={formData.phone}
                       onChange={handleChange}
-                      required
+                      
                       className="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-xl focus:ring-2 focus:ring-yellow-500 focus:border-transparent text-white placeholder-white/50"
                       placeholder="أدخل رقم جوالك"
                     />
@@ -282,10 +302,10 @@ export default function RegisterSection() {
                       name="education"
                       value={formData.education}
                       onChange={handleChange}
-                      required
+                      
                       className="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-xl focus:ring-2 focus:ring-yellow-500 focus:border-transparent text-white"
                     >
-                      <option value="" className="bg-red-900">
+                      <option value="بكالوريوس" className="bg-red-900">
                         اختر
                       </option>
                       <option value="high-school" className="bg-red-900">

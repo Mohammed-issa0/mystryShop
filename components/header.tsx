@@ -5,7 +5,8 @@ import Link from "next/link"
 import { motion, AnimatePresence } from "framer-motion"
 import { Menu, X } from "lucide-react"
 import { usePathname } from "next/navigation"
-
+import logo from '../public/logo.png';
+import Image from "next/image"
 const navLinks = [
   { name: "الرئيسية", href: "/" },
   { name: "من نحن", href: "/about" },
@@ -77,9 +78,11 @@ export default function Header() {
               initial={{ opacity: 0, x: -20 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.5 }}
-              className="text-2xl font-bold text-red-900"
+              className="text-2xl font-bold text-red-900 flex flex-row-reverse justify-between items-center"
             >
-              المتسوق الجديد
+              ركن المسوق للتسوق الخفي
+              <Image src={logo} className="size-10"/>
+              
             </motion.span>
           </Link>
 

@@ -2,11 +2,18 @@
 
 import { motion } from "framer-motion"
 import Image from "next/image"
-import { useEffect } from "react"
+import { ChevronLeft, MessageCircle } from "lucide-react"
+import { AnimatePresence } from "framer-motion"
+import { useEffect,useState } from "react"
 import who from "../../public/who.jpg"
 import em1 from "../../public/em1.jpg"
 import em2 from "../../public/em2.jpg"
+import s1 from '../../public/s1.webp';
+import s2 from '../../public/s2.webp';
+import s3 from '../../public/s3.jpg';
+import s4 from '../../public/s4.jpg';
 export default function AboutPage() {
+  const [showWhatsappTooltip, setShowWhatsappTooltip] = useState(false)
   // Scroll to top on page load
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: "smooth" })
@@ -30,9 +37,64 @@ export default function AboutPage() {
       },
     },
   }
-
+  const teamMembers = [
+    {
+      name: "خبراء تخطيط",
+      title: "تخطيط استراتيجي وتحليل الأعمال",
+      image: s1,
+    },
+    {
+      name: "متسوقين متخصصين",
+      title: "زيارات ميدانية وتقييم واقعي",
+      image: s2,
+    },
+    {
+      name: "إحصائيين",
+      title: "تحليل بيانات وإحصاءات دقيقة",
+      image: s3,
+    },
+    {
+      name: "محللي بيانات",
+      title: "تحويل البيانات إلى قرارات",
+      image: s4,
+    },
+  ];
   return (
     <div className="py-20 relative overflow-hidden">
+      {/* WhatsApp floating button */}
+      <motion.div
+        initial={{ scale: 0, opacity: 0 }}
+        animate={{ scale: 1, opacity: 1 }}
+        transition={{ delay: 1, duration: 0.5 }}
+        className="fixed bottom-8 left-8 z-50"
+        onMouseEnter={() => setShowWhatsappTooltip(true)}
+        onMouseLeave={() => setShowWhatsappTooltip(false)}
+      >
+        <motion.a
+          href="https://wa.me/966531472119"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="flex items-center justify-center w-16 h-16 bg-gradient-to-r from-green-500 to-green-600 rounded-full shadow-lg hover:shadow-xl transition-all duration-300"
+          whileHover={{ scale: 1.1 }}
+          whileTap={{ scale: 0.9 }}
+        >
+          <MessageCircle className="h-8 w-8 text-white" />
+        </motion.a>
+        <AnimatePresence>
+          {showWhatsappTooltip && (
+            <motion.div
+              initial={{ opacity: 0, x: 10, scale: 0.8 }}
+              animate={{ opacity: 1, x: 0, scale: 1 }}
+              exit={{ opacity: 0, x: 10, scale: 0.8 }}
+              transition={{ duration: 0.2 }}
+              className="absolute left-full top-1/2 transform -translate-y-1/2 -translate-x-2 bg-white text-gray-800 px-4 py-2 rounded-lg shadow-md mr-2 whitespace-nowrap"
+            >
+             تواصل معنا
+              <div className="absolute top-1/2 right-0 transform translate-x-2 -translate-y-1/2 w-0 h-0 border-t-8 border-b-8 border-l-8 border-transparent border-l-white"></div>
+            </motion.div>
+          )}
+        </AnimatePresence>
+      </motion.div>
       {/* Animated background elements */}
       <div className="absolute inset-0 -z-10">
         <motion.div
@@ -175,52 +237,55 @@ export default function AboutPage() {
         </motion.div>
 
         <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.7, delay: 0.6 }}
-          className="bg-gradient-to-r from-gray-50 to-white p-10 rounded-2xl shadow-lg"
-        >
-          <h3 className="text-3xl font-bold text-gray-900 mb-6 text-center">فريقنا</h3>
-          <p className="text-lg text-gray-700 mb-8 text-center max-w-3xl mx-auto">
-            يتكون فريقنا من خبراء متخصصين في مجالات التسويق وتجربة العملاء وتحليل البيانات، يعملون معاً لتقديم أفضل
-            الحلول لعملائنا.
-          </p>
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-            {[1, 2, 3, 4].map((member) => (
-              <motion.div
-                key={member}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.5, delay: member * 0.1 }}
-                whileHover={{
-                  y: -10,
-                  boxShadow: "0 20px 25px -5px rgba(0, 0, 0, 0.1)",
-                  transition: { duration: 0.3 },
-                }}
-                className="bg-white rounded-2xl overflow-hidden shadow-lg border border-gray-100 group"
-              >
-                <div className="relative h-64 overflow-hidden">
-                  <Image
-                    src={em2}
-                    alt={`عضو الفريق ${member}`}
-                    fill
-                    style={{ objectFit: "cover" }}
-                    className="group-hover:scale-110 transition-transform duration-500"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-                </div>
-                <div className="p-6 text-center">
-                  <h4 className="text-xl font-bold text-gray-900 group-hover:text-red-900 transition-colors">
-                    اسم عضو الفريق
-                  </h4>
-                  <p className="text-gray-600">المسمى الوظيفي</p>
-                </div>
-              </motion.div>
-            ))}
-          </div>
-        </motion.div>
+      initial={{ opacity: 0, y: 30 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true }}
+      transition={{ duration: 0.7, delay: 0.6 }}
+      className="bg-gradient-to-r from-gray-50 to-white p-10 rounded-2xl shadow-lg"
+    >
+      <h3 className="text-3xl font-bold text-gray-900 mb-6 text-center">
+        فريقنا
+      </h3>
+      <p className="text-lg text-gray-700 mb-8 text-center max-w-3xl mx-auto">
+        يتكون فريقنا من خبراء متخصصين في مجالات التسويق وتجربة العملاء وتحليل البيانات، يعملون معاً لتقديم أفضل
+        الحلول لعملائنا.
+      </p>
+
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+        {teamMembers.map((member, index) => (
+          <motion.div
+            key={index}
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.5, delay: index * 0.1 }}
+            whileHover={{
+              y: -10,
+              boxShadow: "0 20px 25px -5px rgba(0, 0, 0, 0.1)",
+              transition: { duration: 0.3 },
+            }}
+            className="bg-white rounded-2xl overflow-hidden shadow-lg border border-gray-100 group"
+          >
+            <div className="relative h-64 overflow-hidden">
+              <Image
+                src={member.image}
+                alt={member.name}
+                fill
+                style={{ objectFit: "cover" }}
+                className="group-hover:scale-110 transition-transform duration-500"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+            </div>
+            <div className="p-6 text-center">
+              <h4 className="text-xl font-bold text-gray-900 group-hover:text-red-900 transition-colors">
+                {member.name}
+              </h4>
+              <p className="text-gray-600">{member.title}</p>
+            </div>
+          </motion.div>
+        ))}
+      </div>
+    </motion.div>
       </div>
     </div>
   )
