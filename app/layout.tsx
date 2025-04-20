@@ -5,7 +5,7 @@ import Header from "@/components/header"
 import Footer from "@/components/footer"
 import ErrorBoundary from "@/components/error-boundary"
 import ScrollToTop from "@/components/scroll-to-top"
-
+import logo from "../public/logo.png"
 const cairo = Cairo({
   subsets: ["arabic"],
   weight: ["400", "500", "600", "700", "800"],
@@ -20,13 +20,15 @@ export default function RootLayout({
   return (
     <html lang="ar" dir="rtl">
       <head>
-        <title>المتسوق الجديد - طريقك للتميز في الأداء</title>
-        <meta
-          name="description"
-          content="المتسوق الجديد - خدمات التسوق الخفي الاحترافية لتحسين تجربة العملاء وتطوير الأداء"
-        />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
-      </head>
+  <title>المتسوق الجديد - طريقك للتميز في الأداء</title>
+  <meta
+    name="description"
+    content="المتسوق الجديد - خدمات التسوق الخفي الاحترافية لتحسين تجربة العملاء وتطوير الأداء"
+  />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
+  <link rel="icon" href="/logo.png" /> {/* ✅ المسار الصحيح */}
+</head>
+
       <body className={`${cairo.className} bg-white text-gray-900`}>
         <div className="flex min-h-screen flex-col">
           <ErrorBoundary>

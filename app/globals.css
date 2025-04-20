@@ -11,7 +11,10 @@ body {
   color: rgb(var(--foreground-rgb));
   background: rgb(var(--background-rgb));
 }
-
+::selection{
+  background-color: #7f1d1d;
+  color: white;
+}
 /* RTL Support */
 html[dir="rtl"] * {
   letter-spacing: 0;

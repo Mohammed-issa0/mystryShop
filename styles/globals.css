@@ -13,7 +13,10 @@ body {
     text-wrap: balance;
   }
 }
-
+::selection{
+  background-color: #7f1d1d;
+  color: white;
+}
 @layer base {
   :root {
     --background: 0 0% 100%;
