@@ -14,14 +14,14 @@ import {
 } from "lucide-react"
 import { motion } from "framer-motion" // إضافة الاستيراد المناسب
 import k1 from '../public/k1.jpg'
-import k2 from '../public/k2.jpg'
+import k2 from '../public/k1.jpeg'
 import k3 from '../public/k3.jpg'
 import k4 from '../public/k4.jpg'
-import k5 from '../public/k5.webp'
+import k5 from '../public/k5.jpg'
 import k6 from '../public/k6.jpg'
 import k7 from '../public/k7.jpg'
 import k8 from '../public/k8.jpg'
-import k9 from '../public/k9.jpg'
+import k9 from '../public/k9.webp'
 const sectors = [
   {
     id: "government",
