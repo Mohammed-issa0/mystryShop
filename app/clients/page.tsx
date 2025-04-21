@@ -1,70 +1,130 @@
 "use client"
-
-import { motion } from "framer-motion"
-import { useEffect, useState } from "react"
+import Slider from "react-slick"
+import { motion, useAnimation, useInView } from "framer-motion"
+import { useRef, useEffect, useState } from "react"
 import Image from "next/image"
 import { ChevronRight, ChevronLeft, Quote, Star } from "lucide-react"
+import Link from "next/link"
+import l1 from "../../public/l1.jpg";
+import l2 from "../../public/l2.jpg";
+import l3 from "../../public/l3.jpg";
+import l4 from "../../public/l4.jpg";
+import l5 from "../../public/l5.jpg";
+import l6 from "../../public/l6.jpg";
+import l7 from "../../public/l7.jpg";
+import l8 from "../../public/l8.jpg";
+import l9 from "../../public/l9.jpg";
+import l10 from "../../public/l10.jpg";
+import l11 from "../../public/l11.jpg";
+import l12 from "../../public/l12.jpg";
+import l13 from "../../public/l13.jpg";
+import l14 from "../../public/l14.jpg";
+import l15 from "../../public/l15.jpg";
+import l16 from "../../public/l16.jpg";
+// استيراد المكون الجديد
+import AutoScrollingLogos from "@/components/auto-scrolling-logos"
 
-import {  MessageCircle } from "lucide-react"
-import { AnimatePresence } from "framer-motion"
 const testimonials = [
   {
     id: 1,
-    name: "شركة الأفق للتجزئة",
-    position: "مدير تطوير الأعمال",
+    name: "White wax",
+    position: "مدير التسويق",
     content:
-      "ساعدتنا خدمات المتسوق الجديد على تحسين تجربة العملاء بشكل كبير وزيادة معدلات الرضا لدى عملائنا. نتائج التقارير كانت دقيقة ومفصلة وساعدتنا على اتخاذ قرارات مهمة. نقدر احترافية الفريق والتزامهم بتقديم خدمة متميزة.",
-    image: "/placeholder.svg?height=100&width=100",
+      "ساهمت خدمات المتسوق الجديد في فهم توقعات عملائنا بشكل أفضل، مما مكننا من تطوير المنتجات وتحسين جودة الخدمة المقدمة.",
+    image: l1,
     rating: 5,
   },
   {
     id: 2,
-    name: "مجموعة النخبة للضيافة",
-    position: "المدير التنفيذي",
+    name: "مكنون",
+    position: "مدير الجودة",
     content:
-      "تعاملنا مع المتسوق الجديد كان تجربة مميزة. الاحترافية العالية والدقة في العمل ساهمت في تطوير خدماتنا وتدريب موظفينا بشكل أفضل. لقد لاحظنا تحسناً ملحوظاً في مستوى الخدمة المقدمة وزيادة في رضا العملاء بعد تنفيذ التوصيات.",
-    image: "/placeholder.svg?height=100&width=100",
-    rating: 5,
-  },
-  {
-    id: 3,
-    name: "بنك المستقبل",
-    position: "مدير خدمة العملاء",
-    content:
-      "التقارير التي قدمها فريق المتسوق الجديد ساعدتنا على اكتشاف نقاط الضعف في خدماتنا المصرفية وتحسينها. نتائج ملموسة وتوصيات قابلة للتطبيق. نقدر الاهتمام بالتفاصيل والمهنية العالية التي أظهرها الفريق خلال المشروع.",
-    image: "/placeholder.svg?height=100&width=100",
+      "التقارير التفصيلية التي حصلنا عليها من المتسوق الجديد ساعدتنا في مراقبة الأداء وتحسين كفاءة العمليات في المصنع.",
+    image: l2,
     rating: 4,
   },
   {
-    id: 4,
-    name: "سلسلة مطاعم الذواقة",
-    position: "مدير العمليات",
+    id: 3,
+    name: "نور الرياض",
+    position: "المدير العام",
     content:
-      "ساعدتنا خدمات المتسوق الجديد على تحسين جودة الطعام والخدمة في جميع فروعنا. التقارير المفصلة والملاحظات الدقيقة مكنتنا من تحديد المشكلات وحلها بسرعة. نحن ممتنون للفريق على جهودهم المتميزة.",
-    image: "/placeholder.svg?height=100&width=100",
+      "أظهر لنا المتسوق الجديد العديد من التفاصيل الخفية في تجربة الزبائن. بفضل ملاحظاتهم، قمنا بتطوير بيئة الضيافة وجودة الخدمة.",
+    image: l3,
     rating: 5,
   },
+  {
+    id: 4,
+    name: "الكوخ الطبيعي",
+    position: "المدير التنفيذي",
+    content:
+      "التقييمات التي حصلنا عليها كانت مفيدة جداً في تحسين تجربة العملاء في فعالياتنا وتنظيم العمل بشكل أكثر احترافية.",
+    image: l4,
+    rating: 5,
+  },
+  {
+    id: 5,
+    name: "أسمعك",
+    position: "مؤسس التطبيق",
+    content:
+      "المتسوق الجديد كشف لنا نقاط ضعف مهمة في تجربة المستخدم. عملنا على تحسين التطبيق بناءً على ملاحظاتهم وحققنا نتائج ممتازة.",
+    image: l5,
+    rating: 4,
+  },
+  {
+    id: 6,
+    name: "فرقان",
+    position: "مدير تجربة العملاء",
+    content:
+      "من خلال زيارات المتسوق الجديد، استطعنا تعزيز نقاط قوتنا وتحسين الجوانب التي تحتاج تطوير في فروعنا المختلفة.",
+    image: l6,
+    rating: 5,
+  },
+];
+
+const clientLogos = [
+  l1,l2,l3,l4,l5,l6,l7,l8,l9,l10,l11,l12,l13,l14,l15,l16
 ]
 
-const clients = [
-  { id: 1, name: "شركة الأفق للتجزئة", logo: "/placeholder.svg?height=60&width=120" },
-  { id: 2, name: "مجموعة النخبة للضيافة", logo: "/placeholder.svg?height=60&width=120" },
-  { id: 3, name: "بنك المستقبل", logo: "/placeholder.svg?height=60&width=120" },
-  { id: 4, name: "سلسلة مطاعم الذواقة", logo: "/placeholder.svg?height=60&width=120" },
-  { id: 5, name: "شركة الاتصالات المتقدمة", logo: "/placeholder.svg?height=60&width=120" },
-  { id: 6, name: "مجموعة الصحة الطبية", logo: "/placeholder.svg?height=60&width=120" },
-  { id: 7, name: "سلسلة متاجر الأناقة", logo: "/placeholder.svg?height=60&width=120" },
-  { id: 8, name: "شركة السفر والسياحة", logo: "/placeholder.svg?height=60&width=120" },
-]
 
-export default function ClientsPage() {
-  const [showWhatsappTooltip, setShowWhatsappTooltip] = useState(false)
+export default function TestimonialsSection() {
+
+  const sliderSettings = {
+    infinite: true,
+    autoplay: true,
+    autoplaySpeed: 1000,
+    slidesToShow: 4,
+    slidesToScroll: 1,
+    arrows: false,
+    dots: false,
+    speed: 1000,
+    rtl: true,
+    responsive: [
+      {
+        breakpoint: 1024,
+        settings: {
+          slidesToShow: 3,
+        },
+      },
+      {
+        breakpoint: 640,
+        settings: {
+          slidesToShow: 2,
+        },
+      },
+    ],
+  }
+
+
   const [currentIndex, setCurrentIndex] = useState(0)
+  const controls = useAnimation()
+  const ref = useRef(null)
+  const isInView = useInView(ref, { once: false, amount: 0.3 })
 
-  // Scroll to top on page load
   useEffect(() => {
-    window.scrollTo({ top: 0, behavior: "smooth" })
-  }, [])
+    if (isInView) {
+      controls.start("visible")
+    }
+  }, [controls, isInView])
 
   const nextTestimonial = () => {
     setCurrentIndex((prevIndex) => (prevIndex + 1) % testimonials.length)
@@ -72,25 +132,6 @@ export default function ClientsPage() {
 
   const prevTestimonial = () => {
     setCurrentIndex((prevIndex) => (prevIndex - 1 + testimonials.length) % testimonials.length)
-  }
-
-  const fadeIn = {
-    hidden: { opacity: 0, y: 20 },
-    visible: {
-      opacity: 1,
-      y: 0,
-      transition: { duration: 0.6 },
-    },
-  }
-
-  const staggerContainer = {
-    hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: {
-        staggerChildren: 0.1,
-      },
-    },
   }
 
   // Auto-advance testimonials
@@ -101,45 +142,30 @@ export default function ClientsPage() {
     return () => clearInterval(interval)
   }, [])
 
-  return (
-    <div className="py-20 relative overflow-hidden">
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.1,
+        delayChildren: 0.3,
+      },
+    },
+  }
 
-      {/* WhatsApp floating button */}
-    <motion.div
-        initial={{ scale: 0, opacity: 0 }}
-        animate={{ scale: 1, opacity: 1 }}
-        transition={{ delay: 1, duration: 0.5 }}
-        className="fixed bottom-8 left-8 z-50"
-        onMouseEnter={() => setShowWhatsappTooltip(true)}
-        onMouseLeave={() => setShowWhatsappTooltip(false)}
-      >
-        <motion.a
-          href="https://wa.me/966531472119"
-          target="_blank"
-          rel="noopener noreferrer"
-          className="flex items-center justify-center w-16 h-16 bg-gradient-to-r from-green-500 to-green-600 rounded-full shadow-lg hover:shadow-xl transition-all duration-300"
-          whileHover={{ scale: 1.1 }}
-          whileTap={{ scale: 0.9 }}
-        >
-          <MessageCircle className="h-8 w-8 text-white" />
-        </motion.a>
-        <AnimatePresence>
-          {showWhatsappTooltip && (
-            <motion.div
-              initial={{ opacity: 0, x: 10, scale: 0.8 }}
-              animate={{ opacity: 1, x: 0, scale: 1 }}
-              exit={{ opacity: 0, x: 10, scale: 0.8 }}
-              transition={{ duration: 0.2 }}
-              className="absolute left-full top-1/2 transform -translate-y-1/2 -translate-x-2 bg-white text-gray-800 px-4 py-2 rounded-lg shadow-md mr-2 whitespace-nowrap"
-            >
-             تواصل معنا
-              <div className="absolute top-1/2 right-0 transform translate-x-2 -translate-y-1/2 w-0 h-0 border-t-8 border-b-8 border-l-8 border-transparent border-l-white"></div>
-            </motion.div>
-          )}
-        </AnimatePresence>
-      </motion.div>
+  const itemVariants = {
+    hidden: { opacity: 0, y: 20 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: { duration: 0.5 },
+    },
+  }
+
+  return (
+    <section className="py-24 relative overflow-hidden">
       {/* Animated background elements */}
-      <div className="absolute inset-0 -z-10">
+      <div className="absolute inset-0 -z-10 bg-gradient-to-b from-white via-gray-50 to-white">
         <motion.div
           animate={{
             scale: [1, 1.2, 1],
@@ -168,14 +194,33 @@ export default function ClientsPage() {
         />
       </div>
 
-      <div className="container mx-auto px-4">
-        <motion.div initial="hidden" animate="visible" variants={fadeIn} className="text-center mb-16">
-          <h1 className="text-4xl md:text-5xl font-bold text-gray-900 mb-6">
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-red-900 to-orange-600">عملاؤنا</span>
-          </h1>
+      <div className="container mx-auto px-4 relative z-10">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.5 }}
+          className="text-center mb-20"
+        >
+          <div className="inline-block mb-4">
+            <motion.div
+              initial={{ scale: 0 }}
+              whileInView={{ scale: 1 }}
+              viewport={{ once: true }}
+              transition={{ type: "spring", stiffness: 200, damping: 15 }}
+              className="bg-gradient-to-r from-red-900 to-red-700 text-white px-6 py-2 rounded-full text-sm font-bold shadow-lg"
+            >
+              آراء عملائنا
+            </motion.div>
+          </div>
+          <h2 className="text-4xl md:text-5xl font-extrabold text-gray-900 mb-4 tracking-tight">
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-red-900 to-orange-600">عملاؤنا</span>{" "}
+            المميزون
+          </h2>
           <motion.div
             initial={{ width: 0 }}
-            animate={{ width: "120px" }}
+            whileInView={{ width: "120px" }}
+            viewport={{ once: true }}
             transition={{ duration: 0.5, delay: 0.3 }}
             className="h-1.5 bg-gradient-to-r from-red-900 to-orange-600 mx-auto mb-6 rounded-full"
           ></motion.div>
@@ -184,179 +229,129 @@ export default function ClientsPage() {
           </p>
         </motion.div>
 
-        <div className="mb-20">
-          <h2 className="text-3xl font-bold text-gray-900 mb-8 text-center">ماذا يقول عملاؤنا عنا</h2>
-          <div className="relative max-w-4xl mx-auto">
-            {/* Testimonial indicators */}
-            <div className="flex justify-center mb-8 space-x-2 space-x-reverse">
-              {testimonials.map((_, index) => (
-                <button
-                  key={index}
-                  onClick={() => setCurrentIndex(index)}
-                  className={`w-3 h-3 rounded-full transition-all duration-300 ${
-                    currentIndex === index ? "bg-red-900 w-8" : "bg-gray-300"
-                  }`}
-                  aria-label={`Go to testimonial ${index + 1}`}
-                />
-              ))}
-            </div>
+        <div className="relative max-w-4xl mx-auto mb-20">
+          {/* Testimonial indicators */}
+          <div className="flex justify-center mb-8 space-x-2 space-x-reverse">
+            {testimonials.map((_, index) => (
+              <button
+                key={index}
+                onClick={() => setCurrentIndex(index)}
+                className={`transition-all duration-300 ${
+                  currentIndex === index
+                    ? "bg-red-900 w-6 md:w-8 h-2 md:h-3 rounded-full"
+                    : "bg-gray-300 w-2 md:w-3 h-2 md:h-3 rounded-full"
+                }`}
+                aria-label={`Go to testimonial ${index + 1}`}
+              />
+            ))}
+          </div>
 
-            <motion.div
-              key={currentIndex}
-              initial={{ opacity: 0, scale: 0.9, y: 20 }}
-              animate={{ opacity: 1, scale: 1, y: 0 }}
-              exit={{ opacity: 0, scale: 0.9, y: 20 }}
-              transition={{ duration: 0.5 }}
-              className="bg-white rounded-2xl p-10 shadow-2xl border border-gray-100 relative"
-            >
-              {/* Decorative elements */}
-              <div className="absolute top-0 right-0 w-40 h-40 bg-red-100/30 rounded-full -translate-y-1/2 translate-x-1/2"></div>
-              <div className="absolute bottom-0 left-0 w-40 h-40 bg-orange-100/30 rounded-full translate-y-1/2 -translate-x-1/2"></div>
+          {/* Testimonial card */}
+          <motion.div
+  key={currentIndex}
+  initial={{ opacity: 0, scale: 0.9, y: 20 }}
+  animate={{ opacity: 1, scale: 1, y: 0 }}
+  exit={{ opacity: 0, scale: 0.9, y: 20 }}
+  transition={{ type: "spring", stiffness: 100, damping: 15 }}
+  className="bg-white rounded-2xl p-10 shadow-2xl border border-gray-100 relative"
+>
 
-              <div className="relative z-10">
-                <div className="flex justify-center mb-8">
-                  <motion.div
-                    animate={{
-                      rotate: [0, 10, 0, -10, 0],
-                      scale: [1, 1.1, 1, 1.1, 1],
-                    }}
-                    transition={{ duration: 10, repeat: Number.POSITIVE_INFINITY }}
-                    className="text-red-200"
-                  >
-                    <Quote className="h-20 w-20" />
-                  </motion.div>
+            {/* Decorative elements */}
+            <div className="absolute top-0 right-0 w-40 h-40 bg-red-100/30 rounded-full -translate-y-1/2 translate-x-1/2"></div>
+            <div className="absolute bottom-0 left-0 w-40 h-40 bg-orange-100/30 rounded-full translate-y-1/2 -translate-x-1/2"></div>
+
+            <div className="relative z-10">
+              <div className="flex justify-center mb-8">
+                <motion.div
+                  animate={{
+                    rotate: [0, 10, 0, -10, 0],
+                    scale: [1, 1.1, 1, 1.1, 1],
+                  }}
+                  transition={{ duration: 10, repeat: Number.POSITIVE_INFINITY }}
+                  className="text-red-200"
+                >
+                  <Quote className="h-20 w-20" />
+                </motion.div>
+              </div>
+
+              <p className="text-lg md:text-2xl text-gray-700 text-center mb-6 md:mb-10 italic leading-relaxed">
+                {testimonials[currentIndex].content}
+              </p>
+
+              <div className="flex flex-col items-center">
+                <div className="w-16 h-16 md:w-24 md:h-24 rounded-full overflow-hidden mb-4 border-4 border-red-100 shadow-lg">
+                  <Image
+                    src={testimonials[currentIndex].image || "/placeholder.svg"}
+                    alt={testimonials[currentIndex].name}
+                    width={96}
+                    height={96}
+                  />
                 </div>
-
-                <p className="text-2xl text-gray-700 text-center mb-10 italic leading-relaxed">
-                  {testimonials[currentIndex].content}
-                </p>
-
-                <div className="flex flex-col items-center">
-                  <div className="w-24 h-24 rounded-full overflow-hidden mb-4 border-4 border-red-100 shadow-lg">
-                    <Image
-                      src={testimonials[currentIndex].image || "/placeholder.svg"}
-                      alt={testimonials[currentIndex].name}
-                      width={96}
-                      height={96}
+                <h4 className="text-xl md:text-2xl font-bold text-gray-900 mb-1">{testimonials[currentIndex].name}</h4>
+                <p className="text-base md:text-lg text-gray-600 mb-3">{testimonials[currentIndex].position}</p>
+                <div className="flex items-center mb-4">
+                  {[...Array(5)].map((_, i) => (
+                    <Star
+                      key={i}
+                      className={`h-4 w-4 md:h-6 md:w-6 ${
+                        i < testimonials[currentIndex].rating ? "text-yellow-400 fill-yellow-400" : "text-gray-300"
+                      }`}
                     />
-                  </div>
-                  <h4 className="text-2xl font-bold text-gray-900 mb-1">{testimonials[currentIndex].name}</h4>
-                  <p className="text-lg text-gray-600 mb-3">{testimonials[currentIndex].position}</p>
-                  <div className="flex items-center mb-4">
-                    {[...Array(5)].map((_, i) => (
-                      <Star
-                        key={i}
-                        className={`h-6 w-6 ${
-                          i < testimonials[currentIndex].rating ? "text-yellow-400 fill-yellow-400" : "text-gray-300"
-                        }`}
-                      />
-                    ))}
-                  </div>
+                  ))}
                 </div>
               </div>
-            </motion.div>
-
-            {/* Navigation buttons */}
-            <div className="absolute top-1/2 -translate-y-1/2 left-0 right-0 flex justify-between items-center px-4 md:px-0">
-              <motion.button
-                onClick={prevTestimonial}
-                className="p-4 rounded-full bg-white shadow-lg hover:bg-gray-100 transition-colors border border-gray-200 text-gray-700"
-                aria-label="السابق"
-                whileHover={{ scale: 1.1 }}
-                whileTap={{ scale: 0.9 }}
-              >
-                <ChevronRight className="h-6 w-6" />
-              </motion.button>
-              <motion.button
-                onClick={nextTestimonial}
-                className="p-4 rounded-full bg-white shadow-lg hover:bg-gray-100 transition-colors border border-gray-200 text-gray-700"
-                aria-label="التالي"
-                whileHover={{ scale: 1.1 }}
-                whileTap={{ scale: 0.9 }}
-              >
-                <ChevronLeft className="h-6 w-6" />
-              </motion.button>
             </div>
+          </motion.div>
+
+          {/* Navigation buttons */}
+          <div className="absolute top-1/2 -translate-y-1/2 left-0 right-0 flex justify-between items-center px-4 md:px-0">
+            <motion.button
+              onClick={prevTestimonial}
+              className="p-4 rounded-full bg-white shadow-lg hover:bg-gray-100 transition-colors border border-gray-200 text-gray-700"
+              aria-label="السابق"
+              whileHover={{ scale: 1.1 }}
+              whileTap={{ scale: 0.9 }}
+            >
+              <ChevronRight className="h-6 w-6" />
+            </motion.button>
+            <motion.button
+              onClick={nextTestimonial}
+              className="p-4 rounded-full bg-white shadow-lg hover:bg-gray-100 transition-colors border border-gray-200 text-gray-700"
+              aria-label="التالي"
+              whileHover={{ scale: 1.1 }}
+              whileTap={{ scale: 0.9 }}
+            >
+              <ChevronLeft className="h-6 w-6" />
+            </motion.button>
           </div>
         </div>
 
-        <motion.div
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true }}
-          variants={staggerContainer}
-          className="mb-20"
-        >
-          <h2 className="text-3xl font-bold text-gray-900 mb-8 text-center">شركاؤنا في النجاح</h2>
-          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-8">
-            {clients.map((client, index) => (
-              <motion.div
-                key={client.id}
-                variants={fadeIn}
-                whileHover={{
-                  y: -10,
-                  boxShadow: "0 20px 25px -5px rgba(0, 0, 0, 0.1)",
-                  transition: { duration: 0.3 },
-                }}
-                className="bg-white p-8 rounded-2xl shadow-lg border border-gray-100 flex items-center justify-center"
-              >
-                <Image src={client.logo || "/placeholder.svg"} alt={client.name} width={120} height={60} />
-              </motion.div>
-            ))}
-          </div>
-        </motion.div>
+        {/* Client logos */}
+        <div className="mb-20">
+    <motion.h2
+      initial={{ opacity: 0, y: 30 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true }}
+      transition={{ duration: 0.7, delay: 0.4 }}
+      className="text-3xl font-bold text-gray-900 mb-8 text-center"
+    >
+      شركاؤنا في النجاح
+    </motion.h2>
 
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.7, delay: 0.6 }}
-          className="bg-gradient-to-r from-gray-50 to-white p-10 rounded-2xl shadow-lg"
-        >
-          <h2 className="text-2xl font-bold text-gray-900 mb-6 text-center">قصص نجاح</h2>
-          <p className="text-lg text-gray-700 mb-8 text-center max-w-3xl mx-auto">
-            تعرف على قصص نجاح عملائنا وكيف ساعدتهم خدمات المتسوق الخفي على تحسين أدائهم وتعزيز رضا عملائهم
-          </p>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {[1, 2, 3].map((story) => (
-              <motion.div
-                key={story}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.5, delay: story * 0.1 }}
-                whileHover={{
-                  y: -10,
-                  boxShadow: "0 20px 25px -5px rgba(0, 0, 0, 0.1)",
-                  transition: { duration: 0.3 },
-                }}
-                className="bg-white rounded-2xl overflow-hidden shadow-lg border border-gray-100 group"
-              >
-                <div className="relative h-48 overflow-hidden">
-                  <Image
-                    src={`/placeholder.svg?height=300&width=400`}
-                    alt={`قصة نجاح ${story}`}
-                    fill
-                    style={{ objectFit: "cover" }}
-                    className="group-hover:scale-110 transition-transform duration-700"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-                </div>
-                <div className="p-6">
-                  <h3 className="text-xl font-bold text-gray-900 mb-2 group-hover:text-red-900 transition-colors">
-                    قصة نجاح {story}
-                  </h3>
-                  <p className="text-gray-600 mb-4">
-                    نجحنا في مساعدة عميلنا على تحسين مستوى الخدمة وزيادة رضا العملاء من خلال تقديم تقارير دقيقة وتوصيات
-                    عملية.
-                  </p>
-                  <button className="text-red-900 font-medium hover:text-red-700 transition-colors">اقرأ المزيد</button>
-                </div>
-              </motion.div>
-            ))}
+    <Slider {...sliderSettings} className="max-w-6xl mx-auto px-4">
+      {clientLogos.map((logo, index) => (
+        <div key={index} className="px-4">
+          <div className="w-full h-24 flex items-center justify-center">
+            <Image src={logo} alt={`شعار ${index + 1}`} width={120} height={60} className="object-contain" />
           </div>
-        </motion.div>
+        </div>
+      ))}
+    </Slider>
+  </div>
+
+
+        
       </div>
-    </div>
+    </section>
   )
 }

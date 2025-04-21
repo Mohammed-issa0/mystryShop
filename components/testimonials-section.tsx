@@ -1,82 +1,121 @@
 "use client"
-
+import Slider from "react-slick"
 import { motion, useAnimation, useInView } from "framer-motion"
 import { useRef, useEffect, useState } from "react"
 import Image from "next/image"
 import { ChevronRight, ChevronLeft, Quote, Star } from "lucide-react"
 import Link from "next/link"
-
+import l1 from "../public/l1.jpg";
+import l2 from "../public/l2.jpg";
+import l3 from "../public/l3.jpg";
+import l4 from "../public/l4.jpg";
+import l5 from "../public/l5.jpg";
+import l6 from "../public/l6.jpg";
+import l7 from "../public/l7.jpg";
+import l8 from "../public/l8.jpg";
+import l9 from "../public/l9.jpg";
+import l10 from "../public/l10.jpg";
+import l11 from "../public/l11.jpg";
+import l12 from "../public/l12.jpg";
+import l13 from "../public/l13.jpg";
+import l14 from "../public/l14.jpg";
+import l15 from "../public/l15.jpg";
+import l16 from "../public/l16.jpg";
 // استيراد المكون الجديد
 import AutoScrollingLogos from "@/components/auto-scrolling-logos"
 
 const testimonials = [
   {
     id: 1,
-    name: "شركة مشرقة لمستحضرات التجميل",
+    name: "White wax",
     position: "مدير التسويق",
     content:
       "ساهمت خدمات المتسوق الجديد في فهم توقعات عملائنا بشكل أفضل، مما مكننا من تطوير المنتجات وتحسين جودة الخدمة المقدمة.",
-    image: "/placeholder.svg?height=100&width=100",
+    image: l1,
     rating: 5,
   },
   {
     id: 2,
-    name: "المصنع السعودي",
+    name: "مكنون",
     position: "مدير الجودة",
     content:
       "التقارير التفصيلية التي حصلنا عليها من المتسوق الجديد ساعدتنا في مراقبة الأداء وتحسين كفاءة العمليات في المصنع.",
-    image: "/placeholder.svg?height=100&width=100",
+    image: l2,
     rating: 4,
   },
   {
     id: 3,
-    name: "مقاهي المها",
+    name: "نور الرياض",
     position: "المدير العام",
     content:
       "أظهر لنا المتسوق الجديد العديد من التفاصيل الخفية في تجربة الزبائن. بفضل ملاحظاتهم، قمنا بتطوير بيئة الضيافة وجودة الخدمة.",
-    image: "/placeholder.svg?height=100&width=100",
+    image: l3,
     rating: 5,
   },
   {
     id: 4,
-    name: "شركة وفادة لتنظيم الاحتفالات والمعارض",
+    name: "الكوخ الطبيعي",
     position: "المدير التنفيذي",
     content:
       "التقييمات التي حصلنا عليها كانت مفيدة جداً في تحسين تجربة العملاء في فعالياتنا وتنظيم العمل بشكل أكثر احترافية.",
-    image: "/placeholder.svg?height=100&width=100",
+    image: l4,
     rating: 5,
   },
   {
     id: 5,
-    name: "تطبيق أمرك",
+    name: "أسمعك",
     position: "مؤسس التطبيق",
     content:
       "المتسوق الجديد كشف لنا نقاط ضعف مهمة في تجربة المستخدم. عملنا على تحسين التطبيق بناءً على ملاحظاتهم وحققنا نتائج ممتازة.",
-    image: "/placeholder.svg?height=100&width=100",
+    image: l5,
     rating: 4,
   },
   {
     id: 6,
-    name: "الشمع الأبيض",
+    name: "فرقان",
     position: "مدير تجربة العملاء",
     content:
       "من خلال زيارات المتسوق الجديد، استطعنا تعزيز نقاط قوتنا وتحسين الجوانب التي تحتاج تطوير في فروعنا المختلفة.",
-    image: "/placeholder.svg?height=100&width=100",
+    image: l6,
     rating: 5,
   },
 ];
 
-
 const clientLogos = [
-  { id: 1, name: "شركة الأفق للتجزئة", logo: "/placeholder.svg?height=60&width=120" },
-  { id: 2, name: "مجموعة النخبة للضيافة", logo: "/placeholder.svg?height=60&width=120" },
-  { id: 3, name: "بنك المستقبل", logo: "/placeholder.svg?height=60&width=120" },
-  { id: 4, name: "سلسلة مطاعم الذواقة", logo: "/placeholder.svg?height=60&width=120" },
-  { id: 5, name: "شركة الاتصالات المتقدمة", logo: "/placeholder.svg?height=60&width=120" },
-  { id: 6, name: "مجموعة الصحة الطبية", logo: "/placeholder.svg?height=60&width=120" },
+  l1,l2,l3,l4,l5,l6,l7,l8,l9,l10,l11,l12,l13,l14,l15,l16
+  
 ]
 
+
 export default function TestimonialsSection() {
+
+  const sliderSettings = {
+    infinite: true,
+    autoplay: true,
+    autoplaySpeed: 1000,
+    slidesToShow: 4,
+    slidesToScroll: 1,
+    arrows: false,
+    dots: false,
+    speed: 1000,
+    rtl: true,
+    responsive: [
+      {
+        breakpoint: 1024,
+        settings: {
+          slidesToShow: 3,
+        },
+      },
+      {
+        breakpoint: 640,
+        settings: {
+          slidesToShow: 2,
+        },
+      },
+    ],
+  }
+
+
   const [currentIndex, setCurrentIndex] = useState(0)
   const controls = useAnimation()
   const ref = useRef(null)
@@ -290,18 +329,26 @@ export default function TestimonialsSection() {
 
         {/* Client logos */}
         <div className="mb-20">
-  <motion.h2
-    initial={{ opacity: 0, y: 30 }}
-    whileInView={{ opacity: 1, y: 0 }}
-    viewport={{ once: true }}
-    transition={{ duration: 0.7, delay: 0.4 }}
-    className="text-3xl font-bold text-gray-900 mb-8 text-center"
-  >
-    شركاؤنا في النجاح
-  </motion.h2>
+    <motion.h2
+      initial={{ opacity: 0, y: 30 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true }}
+      transition={{ duration: 0.7, delay: 0.4 }}
+      className="text-3xl font-bold text-gray-900 mb-8 text-center"
+    >
+      شركاؤنا في النجاح
+    </motion.h2>
 
-  <AutoScrollingLogos logos={clientLogos} />
-</div>
+    <Slider {...sliderSettings} className="max-w-6xl mx-auto px-4">
+      {clientLogos.map((logo, index) => (
+        <div key={index} className="px-4">
+          <div className="w-full h-24 flex items-center justify-center">
+            <Image src={logo} alt={`شعار ${index + 1}`} width={120} height={60} className="object-contain" />
+          </div>
+        </div>
+      ))}
+    </Slider>
+  </div>
 
 
         <motion.div

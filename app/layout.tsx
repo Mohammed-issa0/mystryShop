@@ -28,7 +28,6 @@ export default function RootLayout({
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
   <link rel="icon" href="/logo.png" /> {/* ✅ المسار الصحيح */}
 </head>
-
       <body className={`${cairo.className} bg-white text-gray-900`}>
         <div className="flex min-h-screen flex-col">
           <ErrorBoundary>
