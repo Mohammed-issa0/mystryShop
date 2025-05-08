@@ -1,100 +1,165 @@
 "use client"
 
 import { motion } from "framer-motion"
-import { useEffect, useState } from "react"
-import { db } from "../../firebaseConfig"
-import { collection, getDocs } from "firebase/firestore"
+import { useEffect,useState } from "react"
+
 import { MessageCircle } from "lucide-react"
 import { AnimatePresence } from "framer-motion"
 import Link from "next/link"
 import Image from "next/image"
 import { ChevronLeft } from "lucide-react"
+import t1 from '../../public/t1.jpg';
+import t2 from '../../public/t2.webp';
+import t3 from '../../public/t3.jpg';
+import t4 from '../../public/t4.webp';
+const services = [
+  {
+    id: "customer-experience",
+    title: "تقييم تجربة العملاء",
+    description:
+      "قياس وتحليل تجربة العملاء من خلال زيارات سرية لتقييم جودة الخدمة المقدمة وتحديد نقاط القوة والضعف في رحلة العميل.",
+    longDescription:
+      "نقدم خدمة شاملة لتقييم تجربة العملاء من خلال زيارات سرية يقوم بها متسوقون خفيون مدربون. نقيس جودة الخدمة، سرعة الاستجابة، مظهر المكان، سلوك الموظفين، وكل ما يؤثر على تجربة العميل. نقدم تقارير مفصلة تحدد نقاط القوة والضعف وتوصيات عملية للتحسين.",
+    image: t1,
+    features: [
+      "تقييم شامل لرحلة العميل",
+      "قياس مستوى الخدمة المقدمة",
+      "تحديد نقاط القوة والضعف",
+      "توصيات عملية للتحسين",
+    ],
+    gradient: "from-red-900 via-red-800 to-red-700",
+  },
+  {
+    id: "employee-performance",
+    title: "تقييم أداء الموظفين",
+    description:
+      "تقييم موضوعي لأداء الموظفين وفق معايير محددة لقياس مدى التزامهم بسياسات الشركة وجودة تعاملهم مع العملاء.",
+    longDescription:
+      "نقدم خدمة متخصصة لتقييم أداء الموظفين من خلال زيارات غير معلنة يقوم بها متسوقون خفيون مدربون. نقيس مدى التزام الموظفين بمعايير وسياسات الشركة، جودة التعامل مع العملاء، المعرفة بالمنتجات والخدمات، وغيرها من المعايير. نقدم تقارير مفصلة تساعد في تحديد احتياجات التدريب وتطوير الأداء.",
+    image: t2,
+    features: [
+      "تقييم موضوعي لأداء الموظفين",
+      "قياس الالتزام بمعايير الشركة",
+      "تحديد احتياجات التدريب",
+      "تقارير أداء فردية وجماعية",
+    ],
+    gradient: "from-orange-800 via-orange-700 to-orange-600",
+  },
+  {
+    id: "data-analysis",
+    title: "جمع وتحليل البيانات",
+    description: "جمع وتحليل البيانات من مصادر متعددة لتقديم رؤى قيمة تساعد في اتخاذ قرارات مبنية على معلومات دقيقة.",
+    longDescription:
+      "نقدم خدمة متكاملة لجمع وتحليل البيانات من مصادر متعددة، بما في ذلك زيارات التسوق الخفي، استطلاعات رأي العملاء، وتحليل وسائل التواصل الاجتماعي. نستخدم أدوات تحليلية متقدمة لاستخراج رؤى قيمة من هذه البيانات وتقديمها في تقارير سهلة الفهم تساعد في اتخاذ قرارات مبنية على معلومات دقيقة.",
+    image: t3,
+    features: ["جمع بيانات من مصادر متعددة", "تحليل متقدم للبيانات", "رؤى قابلة للتنفيذ", "تقارير سهلة الفهم"],
+    gradient: "from-yellow-700 via-yellow-600 to-yellow-500",
+  },
+  {
+    id: "competitive-excellence",
+    title: "دعم التميز التنافسي",
+    description: "تعزيز القدرة التنافسية للشركات من خلال تقييم المنافسين وتحديد الفرص لتحسين الأداء والخدمة.",
+    longDescription:
+      "نقدم خدمة متخصصة لدعم التميز التنافسي من خلال تقييم المنافسين وتحديد الفرص لتحسين الأداء والخدمة. نقوم بزيارات تسوق خفي للمنافسين لتقييم خدماتهم ومنتجاتهم، ونقارن النتائج مع أداء الشركة لتحديد نقاط القوة والضعف. نقدم توصيات عملية لتعزيز الميزة التنافسية وتحسين الحصة السوقية.",
+    image: t4,
+    features: ["تقييم المنافسين", "تحليل مقارن للأداء", "تحديد الفرص التنافسية", "استراتيجيات لتعزيز الميزة التنافسية"],
+    gradient: "from-red-800 via-red-700 to-red-600",
+  },
+]
 
 export default function ServicesPage() {
-  const [services, setServices] = useState<any[]>([])
-  const [loading, setLoading] = useState(true)
   const [showWhatsappTooltip, setShowWhatsappTooltip] = useState(false)
-
+  // Scroll to top on page load
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: "smooth" })
   }, [])
 
-  useEffect(() => {
-    async function fetchServices() {
-      try {
-        const querySnapshot = await getDocs(collection(db, "services"))
-        const servicesData = querySnapshot.docs.map(doc => ({
-          id: doc.id,
-          ...doc.data()
-        }))
-        setServices(servicesData)
-      } catch (error) {
-        console.error("خطأ في جلب الخدمات:", error)
-      } finally {
-        setLoading(false)
-      }
-    }
-
-    fetchServices()
-  }, [])
-
   const fadeIn = {
     hidden: { opacity: 0, y: 20 },
-    visible: { opacity: 1, y: 0, transition: { duration: 0.6 } },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: { duration: 0.6 },
+    },
   }
 
   const staggerContainer = {
     hidden: { opacity: 0 },
     visible: {
       opacity: 1,
-      transition: { staggerChildren: 0.2 },
+      transition: {
+        staggerChildren: 0.2,
+      },
     },
-  }
-
-  if (loading) {
-    return (
-      <div className="py-20 text-center text-2xl font-semibold">
-        جاري التحميل...
-      </div>
-    )
   }
 
   return (
     <div className="py-20 relative overflow-hidden">
-      {/* زر الواتساب */}
-      <div className="fixed bottom-6 left-6 z-50">
-        <div className="relative group">
-          <AnimatePresence>
-            {showWhatsappTooltip && (
-              <motion.div
-                initial={{ opacity: 0, y: 10 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: 10 }}
-                className="absolute bottom-full mb-2 left-1/2 transform -translate-x-1/2 bg-green-600 text-white text-sm rounded-md px-3 py-1 whitespace-nowrap"
-              >
-                تواصل معنا عبر الواتساب
-              </motion.div>
-            )}
-          </AnimatePresence>
-          <Link
-            href="https://wa.me/971561611356"
-            target="_blank"
-            rel="noopener noreferrer"
-            onMouseEnter={() => setShowWhatsappTooltip(true)}
-            onMouseLeave={() => setShowWhatsappTooltip(false)}
-          >
-            <motion.button
-              whileHover={{ scale: 1.1 }}
-              whileTap={{ scale: 0.95 }}
-              className="bg-green-500 p-4 rounded-full shadow-lg"
-            >
-              <MessageCircle className="text-white w-6 h-6" />
-            </motion.button>
-          </Link>
-        </div>
-      </div>
 
-     
+      {/* WhatsApp floating button */}
+    <motion.div
+        initial={{ scale: 0, opacity: 0 }}
+        animate={{ scale: 1, opacity: 1 }}
+        transition={{ delay: 1, duration: 0.5 }}
+        className="fixed bottom-8 left-8 z-50"
+        onMouseEnter={() => setShowWhatsappTooltip(true)}
+        onMouseLeave={() => setShowWhatsappTooltip(false)}
+      >
+        <motion.a
+          href="https://wa.me/966531472119"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="flex items-center justify-center w-16 h-16 bg-gradient-to-r from-green-500 to-green-600 rounded-full shadow-lg hover:shadow-xl transition-all duration-300"
+          whileHover={{ scale: 1.1 }}
+          whileTap={{ scale: 0.9 }}
+        >
+          <MessageCircle className="h-8 w-8 text-white" />
+        </motion.a>
+        <AnimatePresence>
+          {showWhatsappTooltip && (
+            <motion.div
+              initial={{ opacity: 0, x: 10, scale: 0.8 }}
+              animate={{ opacity: 1, x: 0, scale: 1 }}
+              exit={{ opacity: 0, x: 10, scale: 0.8 }}
+              transition={{ duration: 0.2 }}
+              className="absolute left-full top-1/2 transform -translate-y-1/2 -translate-x-2 bg-white text-gray-800 px-4 py-2 rounded-lg shadow-md mr-2 whitespace-nowrap"
+            >
+             تواصل معنا
+              <div className="absolute top-1/2 right-0 transform translate-x-2 -translate-y-1/2 w-0 h-0 border-t-8 border-b-8 border-l-8 border-transparent border-l-white"></div>
+            </motion.div>
+          )}
+        </AnimatePresence>
+      </motion.div>
+
+      {/* Animated background elements */}
+      <div className="absolute inset-0 -z-10">
+        <motion.div
+          animate={{
+            scale: [1, 1.2, 1],
+            x: [0, 30, 0],
+            y: [0, 50, 0],
+          }}
+          transition={{
+            duration: 20,
+            repeat: Number.POSITIVE_INFINITY,
+            repeatType: "reverse",
+          }}
+          className="absolute top-20 left-20 w-96 h-96 rounded-full bg-red-100/30 blur-3xl"
+        />
+        <motion.div
+          animate={{
+            scale: [1, 1.3, 1],
+            x: [0, -40, 0],
+            y: [0, -30, 0],
+          }}
+          transition={{
+            duration: 25,
+            repeat: Number.POSITIVE_INFINITY,
+            repeatType: "reverse",
+          }}
+          className="absolute bottom-20 right-20 w-96 h-96 rounded-full bg-orange-100/30 blur-3xl"
+        />
+      </div>
 
       <div className="container mx-auto px-4">
         <motion.div initial="hidden" animate="visible" variants={fadeIn} className="text-center mb-16">
@@ -134,30 +199,33 @@ export default function ServicesPage() {
                     <div
                       className={`absolute inset-0 bg-gradient-to-br ${service.gradient} opacity-80 group-hover:opacity-90 transition-opacity duration-500`}
                     ></div>
-                    {service.image && (
-                      <Image
-                        src={service.image}
-                        alt={service.title}
-                        fill
-                        className="object-cover object-center"
-                      />
-                    )}
+                    <Image
+                      src={service.image || "/placeholder.svg"}
+                      alt={service.title}
+                      fill
+                      style={{ objectFit: "cover" }}
+                      className="group-hover:scale-110 transition-transform duration-700 opacity-60"
+                    />
+                    <div className="absolute inset-0 flex items-center justify-center">
+                      <h2 className="text-3xl font-bold text-white text-center px-6 transform -translate-y-6 group-hover:translate-y-0 opacity-0 group-hover:opacity-100 transition-all duration-500">
+                        {service.title}
+                      </h2>
+                    </div>
                   </div>
                 </motion.div>
               </div>
-              <div className="md:w-1/2 space-y-4">
-                <h2 className="text-3xl font-bold text-gray-900">{service.title}</h2>
-                <p className="text-lg text-gray-700">{service.description}</p>
-                <div>
-                {service.features && (
-                  
-                  <ul className="list-disc list-inside space-y-2 text-gray-600">
-                    {service.features.map((feature: string, idx: number) => (
-                      <li key={idx}>{feature}</li>
-                    ))}
-                    
-                  </ul>
-                )}
+              <div className="md:w-1/2">
+                <h2 className="text-3xl font-bold text-gray-900 mb-4">{service.title}</h2>
+                <p className="text-lg text-gray-700 mb-6">{service.longDescription}</p>
+                <h3 className="text-xl font-bold text-gray-900 mb-3">مميزات الخدمة:</h3>
+                <ul className="space-y-2 mb-6">
+                  {service.features.map((feature, idx) => (
+                    <li key={idx} className="flex items-center text-lg text-gray-700">
+                      <span className="w-3 h-3 bg-gradient-to-r from-red-900 to-red-700 rounded-full ml-2"></span>
+                      {feature}
+                    </li>
+                  ))}
+                </ul>
                 <motion.div
                   whileHover={{ scale: 1.05, y: -5 }}
                   whileTap={{ scale: 0.95 }}
@@ -171,7 +239,6 @@ export default function ServicesPage() {
                     <ChevronLeft className="mr-1 h-5 w-5" />
                   </Link>
                 </motion.div>
-                  </div>
               </div>
             </motion.div>
           ))}
