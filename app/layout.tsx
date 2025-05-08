@@ -20,10 +20,10 @@ export default function RootLayout({
   return (
     <html lang="ar" dir="rtl">
       <head>
-  <title>المتسوق الجديد - طريقك للتميز في الأداء</title>
+  <title>المتسوق الخفي - طريقك للتميز في الأداء</title>
   <meta
     name="description"
-    content="المتسوق الجديد - خدمات التسوق الخفي الاحترافية لتحسين تجربة العملاء وتطوير الأداء"
+    content="المتسوق الخفي - خدمات التسوق الخفي الاحترافية لتحسين تجربة العملاء وتطوير الأداء"
   />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
   <link rel="icon" href="/logo.png" /> {/* ✅ المسار الصحيح */}
