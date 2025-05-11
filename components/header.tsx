@@ -78,7 +78,7 @@ export default function Header() {
               initial={{ opacity: 0, x: -20 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.5 }}
-              className="text-2xl font-bold text-red-900 flex flex-row-reverse justify-between items-center"
+              className="text-xl md:text-2xl  font-bold text-red-900 flex flex-row-reverse justify-between items-center"
             >
               ركن المسوق للتسوق الخفي
               <Image src={logo} className="size-10"/>
